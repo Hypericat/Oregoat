@@ -16,6 +16,8 @@ public class FeatureHandler {
         if (!features.isEmpty()) throw new IllegalStateException("Initialized existing features!");
 
         register(new Template());
+
+
     }
 
     private static void register(Feature feature) {

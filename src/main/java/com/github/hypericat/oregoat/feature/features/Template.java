@@ -1,7 +1,6 @@
 package com.github.hypericat.oregoat.feature.features;
 
 import com.github.hypericat.event.EventHandler;
-import com.github.hypericat.event.EventState;
 import com.github.hypericat.event.events.ReceivePacketEvent;
 import com.github.hypericat.event.events.SendPacketEvent;
 import com.github.hypericat.oregoat.feature.Feature;
@@ -23,17 +22,23 @@ public class Template extends Feature implements ReceivePacketEvent, SendPacketE
 
     @Override
     protected void onEnable() {
-
+        EventHandler.register(ReceivePacketEvent.class, this);
+        EventHandler.register(SendPacketEvent.class, this);
     }
 
     @Override
     protected void onDisable() {
-
+        EventHandler.unregister(ReceivePacketEvent.class, this);
+        EventHandler.unregister(SendPacketEvent.class, this);
     }
 
     @Override
-    protected void onInit() {
-        EventHandler.register(ReceivePacketEvent.class, this);
-        EventHandler.register(SendPacketEvent.class, this);
+    public String getName() {
+        return "Template";
+    }
+
+    @Override
+    public String[] getAliases() {
+        return new String[] {"Test", "Testing"};
     }
 }
