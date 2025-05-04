@@ -10,5 +10,6 @@ public class Oregoat {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         FeatureHandler.initFeatures();
+        FeatureHandler.debug();
     }
 }

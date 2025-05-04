@@ -17,14 +17,13 @@ public class NetworkManagerMixin {
 
     @Inject(method = "channelRead0", at = @At("HEAD"), cancellable = true)
     private void onChannelRead(ChannelHandlerContext context, Packet<?> packet, CallbackInfo ci) {
-        EventHandler.getListeners(ReceivePacketEvent.class).forEach(event -> ((ReceivePacketEvent) event).onReceivePacket(packet, ci));
+        EventHandler.updateListeners(ReceivePacketEvent.class, event -> ((ReceivePacketEvent) event).onReceivePacket(packet, ci));
 
     }
 
     @Inject(method = "sendPacket(Lnet/minecraft/network/Packet;)V", at = @At("HEAD"), cancellable = true)
     private void onSendPacket(Packet<?> packet, CallbackInfo ci) {
-        EventHandler.getListeners(SendPacketEvent.class).forEach(event -> ((SendPacketEvent) event).onSendPacket(packet, ci));
-
+        EventHandler.updateListeners(SendPacketEvent.class, event -> ((SendPacketEvent) event).onSendPacket(packet, ci));
     }
 
 }
