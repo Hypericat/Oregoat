@@ -10,8 +10,14 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 
+
 @Mod(modid = "oregoat", useMetadata=true)
 public class Oregoat {
+
+    public static final String MODID = "oregoat";
+    public static final String NAME = "Oregoat";
+
+
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         EventHandler.registerForgeEvents();

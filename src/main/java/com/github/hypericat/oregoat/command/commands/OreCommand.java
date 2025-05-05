@@ -19,6 +19,7 @@ public class OreCommand extends BaseOreCommand {
     @Override
     public void processCommand(ICommandSender sender, String[] args) {
         Util.chat("Current screen before: " + Minecraft.getMinecraft().currentScreen);
+        GuiHandler.getInstance().openConfig();
     }
 
     @Override

@@ -2,13 +2,14 @@ package com.github.hypericat.oregoat.gui;
 
 import com.github.hypericat.oregoat.event.EventHandler;
 import com.github.hypericat.oregoat.event.events.ClientTickEvent;
+import com.github.hypericat.oregoat.gui.screens.OreConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 
-public class GuiHandler implements ClientTickEvent {
+public class GuiHandler {
     private static GuiHandler instance;
     private Minecraft mc = Minecraft.getMinecraft();
-    private GuiScreen currentScreen;
+    private final OreConfig config = new OreConfig();
 
     private GuiHandler() {
 
@@ -16,27 +17,13 @@ public class GuiHandler implements ClientTickEvent {
 
     public static void init() {
         instance = new GuiHandler();
-        EventHandler.register(ClientTickEvent.class, instance);
     }
 
     public static GuiHandler getInstance() {
         return instance;
     }
 
-    public void setScreen(GuiScreen screen) {
-        this.currentScreen = screen;
-    }
-
-    public void closeScreen() {
-        this.currentScreen = null;
-    }
-
-    @Override
-    public void onClientTick() {
-        if (mc.thePlayer == null || this.currentScreen == null) return;
-        mc.displayGuiScreen(this.currentScreen);
-        this.currentScreen = null;
-
-
+    public void openConfig() {
+        config.openGui();
     }
 }
