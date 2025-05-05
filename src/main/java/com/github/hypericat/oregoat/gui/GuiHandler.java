@@ -2,7 +2,6 @@ package com.github.hypericat.oregoat.gui;
 
 import com.github.hypericat.oregoat.event.EventHandler;
 import com.github.hypericat.oregoat.event.events.ClientTickEvent;
-import io.github.moulberry.moulconfig.gui.MoulConfigEditor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 
@@ -10,7 +9,6 @@ public class GuiHandler implements ClientTickEvent {
     private static GuiHandler instance;
     private Minecraft mc = Minecraft.getMinecraft();
     private GuiScreen currentScreen;
-    MoulConfigEditor<?> editor = null;
 
     private GuiHandler() {
 
@@ -35,8 +33,9 @@ public class GuiHandler implements ClientTickEvent {
 
     @Override
     public void onClientTick() {
-        if (mc.thePlayer == null || currentScreen == null) return;
-        mc.displayGuiScreen(currentScreen);
+        if (mc.thePlayer == null || this.currentScreen == null) return;
+        mc.displayGuiScreen(this.currentScreen);
+        this.currentScreen = null;
 
 
     }

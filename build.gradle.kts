@@ -1,4 +1,5 @@
 import org.apache.commons.lang3.SystemUtils
+import org.gradle.internal.impldep.org.junit.experimental.categories.Categories.CategoryFilter.include
 
 plugins {
     idea
@@ -30,6 +31,8 @@ loom {
             // If you don't want mixins, remove these lines
             property("mixin.debug", "true")
             arg("--tweakClass", "org.spongepowered.asm.launch.MixinTweaker")
+            arg("--tweakClass", "cc.polyfrost.oneconfig.loader.stage0.LaunchWrapperTweaker")
+
         }
     }
     runConfigs {
@@ -67,7 +70,8 @@ repositories {
     maven("https://repo.spongepowered.org/maven/")
     // If you don't want to log in with your real minecraft account, remove this line
     maven("https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1")
-    maven("https://maven.notenoughupdates.org/releases/")
+
+    maven("https://repo.polyfrost.cc/releases")
 }
 
 val shadowModImpl: Configuration by configurations.creating {
@@ -83,8 +87,6 @@ dependencies {
     mappings("de.oceanlabs.mcp:mcp_stable:22-1.8.9")
     forge("net.minecraftforge:forge:1.8.9-11.15.1.2318-1.8.9")
 
-    shadowModImpl("org.notenoughupdates.moulconfig:MoulConfig:1.3.0")
-
     // If you don't want mixins, remove these lines
     shadowImpl("org.spongepowered:mixin:0.7.11-SNAPSHOT") {
         isTransitive = false
@@ -94,15 +96,11 @@ dependencies {
     // If you don't want to log in with your real minecraft account, remove this line
     runtimeOnly("me.djtheredstoner:DevAuth-forge-legacy:1.2.1")
 
-}
+    // Basic OneConfig dependencies for legacy versions. See OneConfig example mod for more info
+    compileOnly("cc.polyfrost:oneconfig-1.8.9-forge:0.2.2-alpha+") // Should not be included in jar
+    // include should be replaced with a configuration that includes this in the jar
+    shadowImpl("cc.polyfrost:oneconfig-wrapper-launchwrapper:1.0.0-beta+") // Should be included in jar
 
-// This snippet is required in order to correctly load resources in the development environment
-loom {
-    launchConfigs {
-        "client" {
-            //arg("--tweakClass", "io.github.notenoughupdates.moulconfig.tweaker.DevelopmentResourceTweaker")
-        }
-    }
 }
 
 // Tasks:
@@ -145,9 +143,17 @@ val remapJar by tasks.named<net.fabricmc.loom.task.RemapJarTask>("remapJar") {
     input.set(tasks.shadowJar.get().archiveFile)
 }
 
+
+
 tasks.jar {
     archiveClassifier.set("without-deps")
     destinationDirectory.set(layout.buildDirectory.dir("intermediates"))
+    manifest.attributes += mapOf(
+        "ModSide" to "CLIENT",
+        "TweakOrder" to 0,
+        "ForceLoadAsMod" to true,
+        "TweakClass" to "cc.polyfrost.oneconfig.loader.stage0.LaunchWrapperTweaker"
+    )
 }
 
 tasks.shadowJar {
@@ -159,8 +165,6 @@ tasks.shadowJar {
             println("Copying dependencies into mod: ${it.files}")
         }
     }
-
-    relocate("io.github.notenoughupdates.moulconfig", "com.github.hypericat.oregoat.dependencies.moulconfig")
 
     // If you want to include other dependencies and shadow them, you can relocate them in here
     fun relocate(name: String) = relocate(name, "$baseGroup.deps.$name")
