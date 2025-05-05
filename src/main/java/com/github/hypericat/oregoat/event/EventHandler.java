@@ -1,13 +1,10 @@
-package com.github.hypericat.event;
+package com.github.hypericat.oregoat.event;
 
-import org.lwjgl.Sys;
+import net.minecraftforge.common.MinecraftForge;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.function.Consumer;
-import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public class EventHandler {
@@ -43,6 +40,10 @@ public class EventHandler {
     public static void updateListeners(Class<?> clss, Consumer<Event> consumer) {
         if (!EVENTS.containsKey(clss)) return;
         EVENTS.get(clss).forEach(consumer);
+    }
+
+    public static void registerForgeEvents() {
+        MinecraftForge.EVENT_BUS.register(new ForgeEvents());
     }
 
 }

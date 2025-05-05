@@ -1,6 +1,6 @@
-package com.github.hypericat.event.events;
+package com.github.hypericat.oregoat.event.events;
 
-import com.github.hypericat.event.Event;
+import com.github.hypericat.oregoat.event.Event;
 import net.minecraft.network.Packet;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 

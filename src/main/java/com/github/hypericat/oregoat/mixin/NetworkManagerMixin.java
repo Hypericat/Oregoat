@@ -1,9 +1,8 @@
 package com.github.hypericat.oregoat.mixin;
 
-import com.github.hypericat.event.EventHandler;
-import com.github.hypericat.event.EventState;
-import com.github.hypericat.event.events.ReceivePacketEvent;
-import com.github.hypericat.event.events.SendPacketEvent;
+import com.github.hypericat.oregoat.event.EventHandler;
+import com.github.hypericat.oregoat.event.events.ReceivePacketEvent;
+import com.github.hypericat.oregoat.event.events.SendPacketEvent;
 import io.netty.channel.ChannelHandlerContext;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;

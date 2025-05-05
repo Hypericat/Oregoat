@@ -1,8 +1,8 @@
 package com.github.hypericat.oregoat.feature.features;
 
-import com.github.hypericat.event.EventHandler;
-import com.github.hypericat.event.events.ReceivePacketEvent;
-import com.github.hypericat.event.events.SendPacketEvent;
+import com.github.hypericat.oregoat.event.EventHandler;
+import com.github.hypericat.oregoat.event.events.ReceivePacketEvent;
+import com.github.hypericat.oregoat.event.events.SendPacketEvent;
 import com.github.hypericat.oregoat.feature.Feature;
 import net.minecraft.network.Packet;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -11,12 +11,12 @@ public class Template extends Feature implements ReceivePacketEvent, SendPacketE
 
     @Override
     public void onReceivePacket(Packet<?> packet, CallbackInfo ci) {
-        System.out.println("Received packet : " + packet.getClass());
+
     }
 
     @Override
     public void onSendPacket(Packet<?> packet, CallbackInfo ci) {
-        System.out.println("Sent packet : " + packet.getClass());
+
     }
 
 
