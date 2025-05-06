@@ -1,10 +1,12 @@
 package com.github.hypericat.oregoat;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Vector3d;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Color;
 
@@ -52,6 +54,41 @@ public class RenderUtil {
         worldrenderer.pos(bb.minX, bb.minY, bb.maxZ).color(r, g, b, a).endVertex();
         worldrenderer.pos(bb.minX, bb.maxY, bb.maxZ).color(r, g, b, a).endVertex();
         tessellator.draw();
+
+        GlStateManager.enableTexture2D();
+        GlStateManager.disableBlend();
+        GlStateManager.enableDepth();
+        GlStateManager.enableCull();
+    }
+
+    public static Vector3d getBBCenter(AxisAlignedBB bb) {
+        Vector3d vec = new Vector3d();
+        vec.x = (bb.minX + bb.maxX) / 2d;
+        vec.y = (bb.minY + bb.maxY) / 2d;
+        vec.z = (bb.minZ + bb.maxZ) / 2d;
+        return vec;
+    }
+
+    public static void drawTracer(Vector3d pos, float eyeHeight, Color c, float alphaMultiplier) {
+        int r = c.getRed();
+        int g = c.getGreen();
+        int b = c.getBlue();
+        int a = (int) (255 * alphaMultiplier);
+
+        GlStateManager.disableDepth();
+        GlStateManager.disableCull();
+        GlStateManager.enableBlend();
+        GlStateManager.disableLighting();
+        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+        GlStateManager.disableTexture2D();
+
+        Tessellator tessellator = Tessellator.getInstance();
+        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+        worldrenderer.begin(3, DefaultVertexFormats.POSITION_COLOR);
+        worldrenderer.pos(pos.x, pos.y, pos.z).color(r, g, b, a).endVertex();
+        worldrenderer.pos(0, eyeHeight, 0).color(r, g, b, a).endVertex();
+        tessellator.draw();
+
 
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();

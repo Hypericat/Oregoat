@@ -65,13 +65,14 @@ public class Routes extends Feature implements RenderLastEvent {
 
     @Override
     public void onRenderLast(RenderGlobal ctx, float partialTicks) {
+        float eyeHeight = Minecraft.getMinecraft().thePlayer.getEyeHeight();
         BlockPos pos = new BlockPos(0, 72, 0);
 
         AxisAlignedBB bb = new AxisAlignedBB(pos, pos.add(1, 1, 1));
 
         Entity player = Minecraft.getMinecraft().getRenderViewEntity();
         frustum.setPosition(player.posX, player.posY, player.posZ);
-        if (!frustum.isBoundingBoxInFrustum(bb)) return;
+        if (!frustum.isBoundingBoxInFrustum(bb)) return; // Dont return for tracer, also fix tracer with viewbobbing
 
         double playerX = player.lastTickPosX + (player.posX - player.lastTickPosX) * partialTicks;
         double playerY = player.lastTickPosY + (player.posY - player.lastTickPosY) * partialTicks;
@@ -81,6 +82,7 @@ public class Routes extends Feature implements RenderLastEvent {
 
 
         RenderUtil.drawOutlinedBoundingBox(bb, new Color(0, 255, 0), 1f);
+        RenderUtil.drawTracer(RenderUtil.getBBCenter(bb), eyeHeight, new Color(0, 255, 0), 1f);
         //RenderUtil.drawFilledBoundingBox(bb, new Color(0, 0, 255), 0.8f);
     }
 }
