@@ -1,5 +1,6 @@
 package com.github.hypericat.oregoat.feature;
 
+import com.github.hypericat.oregoat.feature.features.Routes;
 import com.github.hypericat.oregoat.feature.features.Template;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ public class FeatureHandler {
         if (!features.isEmpty()) throw new IllegalStateException("Initialized existing features!");
 
         register(new Template());
+        register(new Routes());
     }
 
     private static void register(Feature feature) {
@@ -32,5 +34,6 @@ public class FeatureHandler {
 
     public static void debug() {
         getByClass(Template.class).enable();
+        getByClass(Routes.class).enable();
     }
 }
