@@ -7,6 +7,7 @@ import com.github.hypericat.oregoat.event.events.RenderBlockSolidEvent;
 import com.github.hypericat.oregoat.event.events.RenderLastEvent;
 import com.github.hypericat.oregoat.event.events.SendPacketEvent;
 import com.github.hypericat.oregoat.feature.Feature;
+import com.github.hypericat.oregoat.gui.screens.OreConfig;
 import com.github.hypericat.oregoat.mixin.RenderGlobalMixin;
 import com.github.hypericat.oregoat.mixinInterface.IGlobalRenderer;
 import net.minecraft.client.Minecraft;

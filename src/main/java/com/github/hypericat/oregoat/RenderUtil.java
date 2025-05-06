@@ -1,5 +1,6 @@
 package com.github.hypericat.oregoat;
 
+import com.github.hypericat.oregoat.gui.screens.OreConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -21,6 +22,7 @@ public class RenderUtil {
         int b = c.getBlue();
         int a = (int) (255 * alphaMultiplier);
 
+        GL11.glLineWidth(OreConfig.outlineThickness);
         GlStateManager.disableDepth();
         GlStateManager.disableCull();
         GlStateManager.enableBlend();
@@ -59,6 +61,7 @@ public class RenderUtil {
         GlStateManager.disableBlend();
         GlStateManager.enableDepth();
         GlStateManager.enableCull();
+        GL11.glLineWidth(1);
     }
 
     public static Vector3d getBBCenter(AxisAlignedBB bb) {
@@ -75,6 +78,7 @@ public class RenderUtil {
         int b = c.getBlue();
         int a = (int) (255 * alphaMultiplier);
 
+        GL11.glLineWidth(OreConfig.outlineThickness);
         GlStateManager.disableDepth();
         GlStateManager.disableCull();
         GlStateManager.enableBlend();
@@ -94,6 +98,7 @@ public class RenderUtil {
         GlStateManager.disableBlend();
         GlStateManager.enableDepth();
         GlStateManager.enableCull();
+        GL11.glLineWidth(1);
     }
 
     /**
