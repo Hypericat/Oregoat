@@ -32,8 +32,11 @@ public class FeatureHandler {
         return (T) features.get(clss);
     }
 
+    private static void enableAll() {
+        features.values().forEach(Feature::enable);
+    }
+
     public static void debug() {
-        getByClass(Template.class).enable();
-        getByClass(Routes.class).enable();
+        enableAll();
     }
 }

@@ -15,11 +15,9 @@ import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.Packet;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumWorldBlockLayer;
-import net.minecraft.util.Vector3d;
+import net.minecraft.util.*;
 import org.apache.logging.log4j.core.appender.routing.Route;
 import org.lwjgl.Sys;
 import org.lwjgl.opengl.GL11;
@@ -80,9 +78,11 @@ public class Routes extends Feature implements RenderLastEvent {
 
         bb = bb.offset(-playerX, -playerY, -playerZ);
 
+        // Set line width here
 
         RenderUtil.drawOutlinedBoundingBox(bb, new Color(0, 255, 0), 1f);
         RenderUtil.drawTracer(RenderUtil.getBBCenter(bb), eyeHeight, new Color(0, 255, 0), 1f);
         //RenderUtil.drawFilledBoundingBox(bb, new Color(0, 0, 255), 0.8f);
     }
+
 }

@@ -6,9 +6,6 @@ import com.github.hypericat.oregoat.event.events.ReceivePacketEvent;
 import com.github.hypericat.oregoat.event.events.SendPacketEvent;
 import com.github.hypericat.oregoat.feature.Feature;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.client.C0DPacketCloseWindow;
-import net.minecraft.network.play.server.S2DPacketOpenWindow;
-import org.lwjgl.Sys;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 public class Template extends Feature implements ReceivePacketEvent, SendPacketEvent {
