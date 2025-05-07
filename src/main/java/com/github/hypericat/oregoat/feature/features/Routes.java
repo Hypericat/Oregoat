@@ -1,11 +1,13 @@
 package com.github.hypericat.oregoat.feature.features;
 
 import com.github.hypericat.oregoat.feature.features.dungeon.UnitRoom;
+import com.github.hypericat.oregoat.util.Location;
 import com.github.hypericat.oregoat.util.RenderUtil;
 import com.github.hypericat.oregoat.event.EventHandler;
 import com.github.hypericat.oregoat.event.events.*;
 import com.github.hypericat.oregoat.feature.Feature;
 import com.github.hypericat.oregoat.util.StateUtil;
+import com.github.hypericat.oregoat.util.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.culling.Frustum;
@@ -23,7 +25,6 @@ import java.util.List;
 
 public class Routes extends Feature implements RenderLastEvent, WorldLoadEvent, ClientTickEvent {
 
-    private List<BlockPos> blocks;
     HashMap<Long, UnitRoom> unitRooms;
     private UnitRoom currentRoom;
 
@@ -31,9 +32,7 @@ public class Routes extends Feature implements RenderLastEvent, WorldLoadEvent, 
 
     public Routes() {
         this.frustum = new Frustum();
-        this.blocks = new ArrayList<>();
         this.unitRooms = new HashMap<>();
-        blocks.add(new BlockPos(0, 0, 0));
     }
 
     @Override
@@ -57,7 +56,7 @@ public class Routes extends Feature implements RenderLastEvent, WorldLoadEvent, 
 
     @Override
     public String[] getAliases() {
-        return new String[] {"Route", "Secrets"};
+        return new String[] {"Dungeon Route", "Secrets"};
     }
 
 
@@ -89,7 +88,6 @@ public class Routes extends Feature implements RenderLastEvent, WorldLoadEvent, 
 
     @Override
     public void onWorldLoad(World world) {
-        System.out.println("On World Load!");
         unitRooms.clear();
         for (int x = 0; x < 6; x++) {
             for (int z = 0; z < 6; z++) {
@@ -132,12 +130,16 @@ public class Routes extends Feature implements RenderLastEvent, WorldLoadEvent, 
 
     @Override
     public void onClientTick() {
+        if (StateUtil.getLocation() != Location.Dungeon) return;
+
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
         if (player == null || Minecraft.getMinecraft().theWorld == null) return;
 
         Point pos = coordToIndexPoint(player.getPosition());
         currentRoom = unitRooms.get(encodeIndex(pos));
 
-
+        BlockPos local = currentRoom.toLocalPosition(player.getPosition());
+        if (local == null) return;
+        Util.chat("At room pos : x: " + local.getX() + " y: " + local.getY() + " z: " + local.getZ());
     }
 }
