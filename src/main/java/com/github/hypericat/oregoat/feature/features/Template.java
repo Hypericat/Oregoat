@@ -1,6 +1,5 @@
 package com.github.hypericat.oregoat.feature.features;
 
-import com.github.hypericat.oregoat.Util;
 import com.github.hypericat.oregoat.event.EventHandler;
 import com.github.hypericat.oregoat.event.events.ReceivePacketEvent;
 import com.github.hypericat.oregoat.event.events.SendPacketEvent;

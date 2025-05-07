@@ -1,7 +1,6 @@
-package com.github.hypericat.oregoat;
+package com.github.hypericat.oregoat.util;
 
 import com.github.hypericat.oregoat.gui.screens.OreConfig;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;

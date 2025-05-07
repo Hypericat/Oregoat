@@ -1,9 +1,8 @@
 package com.github.hypericat.oregoat.command.commands;
 
-import com.github.hypericat.oregoat.Util;
+import com.github.hypericat.oregoat.util.Util;
 import com.github.hypericat.oregoat.command.BaseOreCommand;
 import com.github.hypericat.oregoat.gui.GuiHandler;
-import com.github.hypericat.oregoat.gui.screens.OreConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.ICommandSender;
 
