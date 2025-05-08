@@ -18,12 +18,14 @@ public class UnitRoom {
      */
     public static final int startX = -185;
     public static final int startZ = -185;
+    private final BlockPos center;
 
 
     private final Box box;
 
     public UnitRoom(BlockPos center) {
         this.box = new Box(new Point(center.getX(), center.getZ()), 15 ,15);
+        this.center = center;
     }
 
     public Box getBox() {
@@ -43,16 +45,13 @@ public class UnitRoom {
 
     // Stolen from Funny Maps
     public int getCore() {
-        int x = 1;
-        int z = 1;
-
         StringBuilder stringBuilder = new StringBuilder(150);
 
         // Get the chunk at the given coordinates
-        Chunk chunk = Minecraft.getMinecraft().theWorld.getChunkFromChunkCoords(x >> 4, z >> 4);
+        Chunk chunk = Minecraft.getMinecraft().theWorld.getChunkFromChunkCoords(center.getX() >> 4, center.getZ()>> 4);
 
         // Get the height at local chunk coordinates (0-15)
-        int height = chunk.getHeightValue(x & 15, z & 15);
+        int height = chunk.getHeightValue(center.getX() & 15, center.getZ() & 15);
         height = Math.max(11, Math.min(height, 140)); // Clamp height to [11, 140]
 
         // Append initial '0's
@@ -63,7 +62,7 @@ public class UnitRoom {
         int bedrock = 0;
 
         for (int y = height; y >= 12; y--) {
-            BlockPos pos = new BlockPos(x, y, z);
+            BlockPos pos = new BlockPos(center.getX(), y, center.getZ());
             Block block = chunk.getBlock(pos); // May need to use world.getBlockState(pos).getBlock() in newer versions
             int id = Block.getIdFromBlock(block);
 

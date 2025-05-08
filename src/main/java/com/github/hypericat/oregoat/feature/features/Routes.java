@@ -126,7 +126,7 @@ public class Routes extends Feature implements RenderLastEvent, WorldLoadEvent, 
 
 
     public Point coordToIndexPoint(BlockPos pos) {
-        return new Point((pos.getX() - UnitRoom.startX) / UnitRoom.roomSize, (pos.getZ() - UnitRoom.startZ) / UnitRoom.roomSize);
+        return new Point((pos.getX() - UnitRoom.startX) / UnitRoom.roomSize, (pos.getZ() - UnitRoom.startZ) / UnitRoom.roomSize); // Doesnt work, maybe because it always rounds down?
     }
 
     public UnitRoom getRoomFromPos(BlockPos pos) {
@@ -148,7 +148,7 @@ public class Routes extends Feature implements RenderLastEvent, WorldLoadEvent, 
 
         System.out.println("Current room core : " + currentRoom.getCore());
 
-        Util.chat("At room pos : x: " + local.getX() + " y: " + local.getY() + " z: " + local.getZ());
+        //Util.chat("At room pos : x: " + local.getX() + " y: " + local.getY() + " z: " + local.getZ());
 
     }
 }
