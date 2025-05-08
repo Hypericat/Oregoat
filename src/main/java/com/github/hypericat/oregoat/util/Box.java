@@ -22,10 +22,8 @@ public class Box {
         this.minY = Math.min(y1, y2);
     }
 
-
-    // Make sure width and height are both divisible by 2
-    public Box(Point center, int width, int height) {
-        this(center.x + (width >> 1), center.y + (height >> 1), center.x - (width >> 1), center.y - (height >> 1));
+    public Box(Point center, int widthRad, int heightRad) {
+        this(center.x + widthRad, center.y + heightRad, center.x - widthRad, center.y - heightRad);
     }
 
     public Point getMax() {

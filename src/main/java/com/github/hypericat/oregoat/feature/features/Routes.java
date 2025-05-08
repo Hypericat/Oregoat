@@ -1,5 +1,6 @@
 package com.github.hypericat.oregoat.feature.features;
 
+import cc.polyfrost.oneconfig.libs.checker.units.qual.A;
 import com.github.hypericat.oregoat.feature.features.dungeon.UnitRoom;
 import com.github.hypericat.oregoat.util.Location;
 import com.github.hypericat.oregoat.util.RenderUtil;
@@ -89,9 +90,12 @@ public class Routes extends Feature implements RenderLastEvent, WorldLoadEvent, 
     @Override
     public void onWorldLoad(World world) {
         unitRooms.clear();
-        for (int x = 0; x < 6; x++) {
-            for (int z = 0; z < 6; z++) {
-                unitRooms.put(encodeIndex(x, z), new UnitRoom(new BlockPos((-25 - (32 * x)), 70, (-25 - (32 * z)))));
+        for (int x = 0; x <= 10; x++) {
+            for (int z = 0; z <= 10; z++) {
+                int xPos = UnitRoom.startX + x * UnitRoom.roomSize;
+                int zPos = UnitRoom.startZ + z * UnitRoom.roomSize;
+
+                unitRooms.put(encodeIndex(x, z), new UnitRoom(new BlockPos(xPos, 70, zPos)));
                 //System.out.println("Added room! at : " + unitRooms.get(unitRooms.size() - 1).getBox());
             }
         }
@@ -122,10 +126,11 @@ public class Routes extends Feature implements RenderLastEvent, WorldLoadEvent, 
 
 
     public Point coordToIndexPoint(BlockPos pos) {
-        Point point = new Point();
-        point.x = (-10 - pos.getX()) / 32;
-        point.y = (-10 - pos.getZ()) / 32;
-        return point;
+        return new Point((pos.getX() - UnitRoom.startX) / UnitRoom.roomSize, (pos.getZ() - UnitRoom.startZ) / UnitRoom.roomSize);
+    }
+
+    public UnitRoom getRoomFromPos(BlockPos pos) {
+        return unitRooms.get(encodeIndex(coordToIndexPoint(pos)));
     }
 
     @Override
@@ -135,11 +140,15 @@ public class Routes extends Feature implements RenderLastEvent, WorldLoadEvent, 
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
         if (player == null || Minecraft.getMinecraft().theWorld == null) return;
 
-        Point pos = coordToIndexPoint(player.getPosition());
-        currentRoom = unitRooms.get(encodeIndex(pos));
+        currentRoom = getRoomFromPos(player.getPosition());
 
+        if (currentRoom == null) return;
         BlockPos local = currentRoom.toLocalPosition(player.getPosition());
         if (local == null) return;
+
+        System.out.println("Current room core : " + currentRoom.getCore());
+
         Util.chat("At room pos : x: " + local.getX() + " y: " + local.getY() + " z: " + local.getZ());
+
     }
 }
