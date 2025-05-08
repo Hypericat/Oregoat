@@ -1,8 +1,5 @@
 package com.github.hypericat.oregoat.mixin;
 
-import com.github.hypericat.oregoat.event.EventHandler;
-import com.github.hypericat.oregoat.event.events.RenderBlockSolidEvent;
-import com.github.hypericat.oregoat.mixinInterface.IGlobalRenderer;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.entity.Entity;

@@ -5,6 +5,7 @@ import com.github.hypericat.oregoat.command.CommandHandler;
 import com.github.hypericat.oregoat.event.EventHandler;
 import com.github.hypericat.oregoat.event.ForgeEvents;
 import com.github.hypericat.oregoat.feature.FeatureHandler;
+import com.github.hypericat.oregoat.feature.features.dungeon.DungeonRoomHandler;
 import com.github.hypericat.oregoat.gui.GuiHandler;
 import com.github.hypericat.oregoat.util.StateUtil;
 import net.minecraftforge.common.MinecraftForge;
@@ -22,6 +23,7 @@ public class Oregoat {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         StateUtil.init();
+        DungeonRoomHandler.initCores();
         EventHandler.registerForgeEvents();
         GuiHandler.init();
         FeatureHandler.initFeatures();

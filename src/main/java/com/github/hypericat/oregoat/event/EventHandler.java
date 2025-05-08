@@ -19,7 +19,6 @@ public class EventHandler {
             EVENTS.put(clss, new HashSet<>());
         else
             if (EVENTS.get(clss).contains(event)) return; // Duplicate register
-        System.out.println("Registered!");
         EVENTS.get(clss).add(event); // It should add to hashet with the hashcode() being the mem address
     }
 
