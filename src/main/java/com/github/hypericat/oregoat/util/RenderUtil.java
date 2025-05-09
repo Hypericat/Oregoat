@@ -1,6 +1,7 @@
 package com.github.hypericat.oregoat.util;
 
 import com.github.hypericat.oregoat.gui.screens.OreConfig;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -9,6 +10,8 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vector3d;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Color;
+
+import java.util.List;
 
 public class RenderUtil {
     private RenderUtil() {
@@ -99,6 +102,29 @@ public class RenderUtil {
         GlStateManager.enableCull();
         GL11.glLineWidth(1);
     }
+
+    // Stolen from funny maps
+
+    public static void renderCenteredText(int x, int y, int color, String... text) {
+        if (text.length == 0) return;
+
+        GlStateManager.pushMatrix();
+        GlStateManager.translate((float) x, (float) y, 0f);
+
+
+        int fontHeight = Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT + 1;
+        float yTextOffset = -0.5f * text.length * fontHeight;
+
+        for (int i = 0; i < text.length; i++) {
+            String line = text[i];
+            float textWidth = Minecraft.getMinecraft().fontRendererObj.getStringWidth(line) / -2f;
+            Minecraft.getMinecraft().fontRendererObj.drawString(line, textWidth, yTextOffset + i * fontHeight, color, true);
+        }
+
+
+        GlStateManager.popMatrix();
+    }
+
 
     /**
      * Taken from NotEnoughUpdates under Creative Commons Attribution-NonCommercial 3.0

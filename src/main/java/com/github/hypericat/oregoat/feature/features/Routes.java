@@ -1,6 +1,6 @@
 package com.github.hypericat.oregoat.feature.features;
 
-import cc.polyfrost.oneconfig.libs.checker.units.qual.A;
+import com.github.hypericat.oregoat.feature.features.dungeon.DungeonRoomHandler;
 import com.github.hypericat.oregoat.feature.features.dungeon.UnitRoom;
 import com.github.hypericat.oregoat.util.Location;
 import com.github.hypericat.oregoat.util.RenderUtil;
@@ -8,23 +8,22 @@ import com.github.hypericat.oregoat.event.EventHandler;
 import com.github.hypericat.oregoat.event.events.*;
 import com.github.hypericat.oregoat.feature.Feature;
 import com.github.hypericat.oregoat.util.StateUtil;
-import com.github.hypericat.oregoat.util.Util;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
-import org.lwjgl.Sys;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import org.lwjgl.util.Color;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
-public class Routes extends Feature implements RenderLastEvent, WorldLoadEvent, ClientTickEvent {
+public class Routes extends Feature implements RenderLastEvent, WorldLoadEvent, ClientTickEvent, RenderHudEvent {
 
     HashMap<Long, UnitRoom> unitRooms;
     private UnitRoom currentRoom;
@@ -41,13 +40,14 @@ public class Routes extends Feature implements RenderLastEvent, WorldLoadEvent, 
         EventHandler.register(RenderLastEvent.class, this);
         EventHandler.register(WorldLoadEvent.class, this);
         EventHandler.register(ClientTickEvent.class, this);
+        EventHandler.register(RenderHudEvent.class, this);
     }
 
     @Override
     protected void onDisable() {
         EventHandler.unregister(RenderLastEvent.class, this);
         EventHandler.unregister(WorldLoadEvent.class, this);
-        EventHandler.unregister(ClientTickEvent.class, this);
+        EventHandler.unregister(RenderHudEvent.class, this);
     }
 
     @Override
@@ -90,6 +90,8 @@ public class Routes extends Feature implements RenderLastEvent, WorldLoadEvent, 
     @Override
     public void onWorldLoad(World world) {
         unitRooms.clear();
+        this.currentRoom = null;
+
         for (int x = 0; x <= 10; x++) {
             for (int z = 0; z <= 10; z++) {
                 int xPos = UnitRoom.startX + x * UnitRoom.roomSize;
@@ -126,7 +128,7 @@ public class Routes extends Feature implements RenderLastEvent, WorldLoadEvent, 
 
 
     public Point coordToIndexPoint(BlockPos pos) {
-        return new Point((pos.getX() - UnitRoom.startX) / UnitRoom.roomSize, (pos.getZ() - UnitRoom.startZ) / UnitRoom.roomSize); // Doesnt work, maybe because it always rounds down?
+        return new Point(Math.round((pos.getX() - UnitRoom.startX) / (float) UnitRoom.roomSize), Math.round((pos.getZ() - UnitRoom.startZ) / (float) UnitRoom.roomSize)); // Doesnt work, maybe because it always rounds down?
     }
 
     public UnitRoom getRoomFromPos(BlockPos pos) {
@@ -143,12 +145,21 @@ public class Routes extends Feature implements RenderLastEvent, WorldLoadEvent, 
         currentRoom = getRoomFromPos(player.getPosition());
 
         if (currentRoom == null) return;
-        BlockPos local = currentRoom.toLocalPosition(player.getPosition());
-        if (local == null) return;
 
-        System.out.println("Current room core : " + currentRoom.getCore());
+        DungeonRoomHandler.initDungeonRoomType(currentRoom);
+
+
+        //BlockPos local = currentRoom.toLocalPosition(player.getPosition());
+        //if (local == null) return;
 
         //Util.chat("At room pos : x: " + local.getX() + " y: " + local.getY() + " z: " + local.getZ());
 
+    }
+
+    @Override
+    public void onRenderHud(RenderGameOverlayEvent.ElementType type, ScaledResolution res, float partialTicks) {
+        if (currentRoom != null && currentRoom.hasRoomData()) {
+            RenderUtil.renderCenteredText(res.getScaledWidth() >> 1, res.getScaledHeight() >> 1, 0xFFFFFFFF, "Current Room : " + currentRoom.getRoomData().getName());
+        }
     }
 }

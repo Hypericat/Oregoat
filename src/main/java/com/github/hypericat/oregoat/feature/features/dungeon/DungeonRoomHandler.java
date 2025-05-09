@@ -2,13 +2,8 @@ package com.github.hypericat.oregoat.feature.features.dungeon;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.Sys;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -22,7 +17,7 @@ public class DungeonRoomHandler {
     }
 
     public static void initDungeonRoomType(UnitRoom room) {
-
+        room.data = getFromCore(room.getCore());
     }
 
     public static void initCores() {
@@ -39,5 +34,9 @@ public class DungeonRoomHandler {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static RoomData getFromCore(int core) {
+        return rooms.get(core);
     }
 }

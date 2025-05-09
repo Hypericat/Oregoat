@@ -9,7 +9,8 @@ public enum RoomType {
     FAIRY("FAIRY"),
     PUZZLE("PUZZLE"),
     TRAP("TRAP"),
-    RARE("RARE");
+    RARE("RARE"),
+    CHAMPION("CHAMPION");
 
 
     private String id;

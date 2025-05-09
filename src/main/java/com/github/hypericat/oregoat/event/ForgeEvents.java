@@ -1,6 +1,7 @@
 package com.github.hypericat.oregoat.event;
 
 import com.github.hypericat.oregoat.event.events.*;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -16,6 +17,11 @@ public class ForgeEvents {
     @SubscribeEvent
     public void onRenderWorldLast(RenderWorldLastEvent event) {
         EventHandler.updateListeners(RenderLastEvent.class, e -> ((RenderLastEvent) e).onRenderLast(event.context, event.partialTicks));
+    }
+
+    @SubscribeEvent
+    public void onRenderHud(RenderGameOverlayEvent event) {
+        EventHandler.updateListeners(RenderHudEvent.class, e -> ((RenderHudEvent) e).onRenderHud(event.type, event.resolution, event.partialTicks));
     }
 
     @SubscribeEvent

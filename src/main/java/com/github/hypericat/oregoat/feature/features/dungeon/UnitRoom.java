@@ -19,6 +19,7 @@ public class UnitRoom {
     public static final int startX = -185;
     public static final int startZ = -185;
     private final BlockPos center;
+    protected RoomData data;
 
 
     private final Box box;
@@ -40,6 +41,10 @@ public class UnitRoom {
 
     public BlockPos toAbsolutePosition(BlockPos localPos) {
         return localPos.add(new Vec3i(box.getMin().x, 0, box.getMin().y));
+    }
+
+    public RoomData getRoomData() {
+        return this.data;
     }
 
 
@@ -87,6 +92,10 @@ public class UnitRoom {
         }
 
         return stringBuilder.toString().hashCode();
+    }
+
+    public boolean hasRoomData() {
+        return this.data != null;
     }
 
 
