@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vector3d;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Color;
@@ -14,6 +15,7 @@ import org.lwjgl.util.Color;
 import java.util.List;
 
 public class RenderUtil {
+
     private RenderUtil() {
 
     }
@@ -103,14 +105,11 @@ public class RenderUtil {
         GL11.glLineWidth(1);
     }
 
-    // Stolen from funny maps
-
     public static void renderCenteredText(int x, int y, int color, String... text) {
-        if (text.length == 0) return;
 
+        if (text.length == 0) return;
         GlStateManager.pushMatrix();
         GlStateManager.translate((float) x, (float) y, 0f);
-
 
         int fontHeight = Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT + 1;
         float yTextOffset = -0.5f * text.length * fontHeight;
@@ -118,10 +117,10 @@ public class RenderUtil {
         for (int i = 0; i < text.length; i++) {
             String line = text[i];
             float textWidth = Minecraft.getMinecraft().fontRendererObj.getStringWidth(line) / -2f;
-            Minecraft.getMinecraft().fontRendererObj.drawString(line, textWidth, yTextOffset + i * fontHeight, color, true);
+            Minecraft.getMinecraft().fontRendererObj.drawString(line, textWidth, yTextOffset + i * fontHeight, color, false);
         }
 
-
+ 
         GlStateManager.popMatrix();
     }
 

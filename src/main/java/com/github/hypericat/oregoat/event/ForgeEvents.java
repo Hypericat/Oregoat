@@ -20,8 +20,8 @@ public class ForgeEvents {
     }
 
     @SubscribeEvent
-    public void onRenderHud(RenderGameOverlayEvent event) {
-        EventHandler.updateListeners(RenderHudEvent.class, e -> ((RenderHudEvent) e).onRenderHud(event.type, event.resolution, event.partialTicks));
+    public void onRenderChat(RenderGameOverlayEvent.Chat event) {
+        EventHandler.updateListeners(RenderChatEvent.class, e -> ((RenderChatEvent) e).onRenderChat(event.resolution, event.type, event.partialTicks));
     }
 
     @SubscribeEvent

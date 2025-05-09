@@ -10,7 +10,6 @@ import com.github.hypericat.oregoat.feature.Feature;
 import com.github.hypericat.oregoat.util.StateUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.entity.Entity;
@@ -19,11 +18,12 @@ import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import org.lwjgl.util.Color;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.awt.*;
 import java.util.HashMap;
 
-public class Routes extends Feature implements RenderLastEvent, WorldLoadEvent, ClientTickEvent, RenderHudEvent {
+public class Routes extends Feature implements RenderLastEvent, WorldLoadEvent, ClientTickEvent, RenderChatEvent {
 
     HashMap<Long, UnitRoom> unitRooms;
     private UnitRoom currentRoom;
@@ -40,14 +40,14 @@ public class Routes extends Feature implements RenderLastEvent, WorldLoadEvent, 
         EventHandler.register(RenderLastEvent.class, this);
         EventHandler.register(WorldLoadEvent.class, this);
         EventHandler.register(ClientTickEvent.class, this);
-        EventHandler.register(RenderHudEvent.class, this);
+        EventHandler.register(RenderChatEvent.class, this);
     }
 
     @Override
     protected void onDisable() {
         EventHandler.unregister(RenderLastEvent.class, this);
         EventHandler.unregister(WorldLoadEvent.class, this);
-        EventHandler.unregister(RenderHudEvent.class, this);
+        EventHandler.unregister(RenderChatEvent.class, this);
     }
 
     @Override
@@ -157,7 +157,7 @@ public class Routes extends Feature implements RenderLastEvent, WorldLoadEvent, 
     }
 
     @Override
-    public void onRenderHud(RenderGameOverlayEvent.ElementType type, ScaledResolution res, float partialTicks) {
+    public void onRenderChat(ScaledResolution res, RenderGameOverlayEvent.ElementType type, float partialTicks) {
         if (currentRoom != null && currentRoom.hasRoomData()) {
             RenderUtil.renderCenteredText(res.getScaledWidth() >> 1, res.getScaledHeight() >> 1, 0xFFFFFFFF, "Current Room : " + currentRoom.getRoomData().getName());
         }
