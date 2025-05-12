@@ -1,5 +1,6 @@
 package com.github.hypericat.oregoat.feature.features.dungeon;
 
+import com.github.hypericat.oregoat.util.Util;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import net.minecraft.client.Minecraft;

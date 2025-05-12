@@ -47,17 +47,27 @@ public class UnitRoom {
         return this.data;
     }
 
+    public int getMaxHeight() {
+        Chunk chunk = Minecraft.getMinecraft().theWorld.getChunkFromChunkCoords(center.getX() >> 4, center.getZ() >> 4);
+        return this.getMaxHeight(chunk);
+    }
+
+    private int getMaxHeight(Chunk chunk) {
+        return Math.max(11, Math.min(chunk.getHeightValue(center.getX() & 15, center.getZ() & 15), 140)); // Clamp height to [11, 140]
+
+    }
+
 
     // Stolen from Funny Maps
     public int getCore() {
         StringBuilder stringBuilder = new StringBuilder(150);
 
-        // Get the chunk at the given coordinates
-        Chunk chunk = Minecraft.getMinecraft().theWorld.getChunkFromChunkCoords(center.getX() >> 4, center.getZ()>> 4);
+        Chunk chunk = Minecraft.getMinecraft().theWorld.getChunkFromChunkCoords(center.getX() >> 4, center.getZ() >> 4);
 
         // Get the height at local chunk coordinates (0-15)
-        int height = chunk.getHeightValue(center.getX() & 15, center.getZ() & 15);
-        height = Math.max(11, Math.min(height, 140)); // Clamp height to [11, 140]
+        int height = this.getMaxHeight(chunk);
+
+        if (height == -1) return -1;
 
         // Append initial '0's
         for (int i = 0; i < 140 - height; i++) {

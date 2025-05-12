@@ -18,21 +18,29 @@ import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import org.lwjgl.util.Color;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Routes extends Feature implements RenderLastEvent, WorldLoadEvent, ClientTickEvent, RenderChatEvent {
 
     HashMap<Long, UnitRoom> unitRooms;
+    HashMap<String, List<BlockPos>> paths;
+
     private UnitRoom currentRoom;
 
-    private final Frustum frustum;
 
     public Routes() {
-        this.frustum = new Frustum();
         this.unitRooms = new HashMap<>();
+        this.paths = new HashMap<>();
+
+        List<BlockPos> testPos =  new ArrayList<>();
+        testPos.add(new BlockPos(18, 68, 22));
+        testPos.add(new BlockPos(12, 70, 26));
+
+        paths.put("Entrance", testPos);
     }
 
     @Override
@@ -48,6 +56,7 @@ public class Routes extends Feature implements RenderLastEvent, WorldLoadEvent, 
         EventHandler.unregister(RenderLastEvent.class, this);
         EventHandler.unregister(WorldLoadEvent.class, this);
         EventHandler.unregister(RenderChatEvent.class, this);
+        EventHandler.register(ClientTickEvent.class, this);
     }
 
     @Override
@@ -65,26 +74,12 @@ public class Routes extends Feature implements RenderLastEvent, WorldLoadEvent, 
     public void onRenderLast(RenderGlobal ctx, float partialTicks) {
         if (currentRoom != null) {
             renderBoxOutline(currentRoom.getBox().to3dCentered(70, 20), partialTicks, new Color(0, 0, 255));
+            if (currentRoom.hasRoomData() && paths.containsKey(currentRoom.getRoomData().getName())) {
+                List<BlockPos> positions = paths.get(currentRoom.getRoomData().getName());
+
+                positions.forEach(pos -> renderWaypoint(currentRoom.toAbsolutePosition(pos), partialTicks));
+            }
         }
-
-        float eyeHeight = Minecraft.getMinecraft().thePlayer.getEyeHeight();
-        BlockPos pos = new BlockPos(0, 72, 0);
-
-        AxisAlignedBB bb = new AxisAlignedBB(pos, pos.add(1, 1, 1));
-
-        Entity player = Minecraft.getMinecraft().getRenderViewEntity();
-        frustum.setPosition(player.posX, player.posY, player.posZ);
-        if (!frustum.isBoundingBoxInFrustum(bb)) return; // Dont return for tracer
-
-        double playerX = player.lastTickPosX + (player.posX - player.lastTickPosX) * partialTicks;
-        double playerY = player.lastTickPosY + (player.posY - player.lastTickPosY) * partialTicks;
-        double playerZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * partialTicks;
-
-        bb = bb.offset(-playerX, -playerY, -playerZ);
-
-        RenderUtil.drawOutlinedBoundingBox(bb, new Color(0, 255, 0), 1f);
-        RenderUtil.drawTracer(RenderUtil.getBBCenter(bb), eyeHeight, new Color(0, 255, 0), 1f);
-        //RenderUtil.drawFilledBoundingBox(bb, new Color(0, 0, 255), 0.8f);
     }
 
     @Override
@@ -104,10 +99,29 @@ public class Routes extends Feature implements RenderLastEvent, WorldLoadEvent, 
 
     }
 
-    public void renderBoxOutline(AxisAlignedBB bb, float partialTicks, Color color) {
+    private void renderWaypoint(BlockPos pos, float partialTicks) {
+        float eyeHeight = Minecraft.getMinecraft().thePlayer.getEyeHeight();
+
+        AxisAlignedBB bb = new AxisAlignedBB(pos, pos.add(1, 1, 1));
+
         Entity player = Minecraft.getMinecraft().getRenderViewEntity();
-        frustum.setPosition(player.posX, player.posY, player.posZ);
-        if (!frustum.isBoundingBoxInFrustum(bb)) return;
+
+        double playerX = player.lastTickPosX + (player.posX - player.lastTickPosX) * partialTicks;
+        double playerY = player.lastTickPosY + (player.posY - player.lastTickPosY) * partialTicks;
+        double playerZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * partialTicks;
+
+        bb = bb.offset(-playerX, -playerY, -playerZ);
+
+        RenderUtil.drawOutlinedBoundingBox(bb, new Color(0, 255, 0), 1f);
+        //RenderUtil.drawFilledBoundingBox(bb, new Color(0, 0, 255), 0.8f);
+
+        RenderUtil.drawTracer(RenderUtil.getBBCenter(bb), eyeHeight, new Color(0, 255, 0), 1f);
+    }
+
+
+
+    private void renderBoxOutline(AxisAlignedBB bb, float partialTicks, Color color) {
+        Entity player = Minecraft.getMinecraft().getRenderViewEntity();
 
         double playerX = player.lastTickPosX + (player.posX - player.lastTickPosX) * partialTicks;
         double playerY = player.lastTickPosY + (player.posY - player.lastTickPosY) * partialTicks;
