@@ -74,7 +74,7 @@ public class Routes extends Feature implements RenderLastEvent, WorldLoadEvent, 
     @Override
     public void onRenderLast(RenderGlobal ctx, float partialTicks) {
         if (currentRoom != null) {
-            renderBoxOutline(currentRoom.getBox().to3dCentered(70, 20), partialTicks, new Color(0, 0, 255));
+            RenderUtil.renderBlockOutline(currentRoom.getBox().to3dCentered(70, 20), partialTicks, new Color(0, 0, 255));
             if (currentRoom.hasRoomData() && paths.containsKey(currentRoom.getRoomData().getName())) {
                 List<BlockPos> positions = paths.get(currentRoom.getRoomData().getName());
 
@@ -117,20 +117,6 @@ public class Routes extends Feature implements RenderLastEvent, WorldLoadEvent, 
         //RenderUtil.drawFilledBoundingBox(bb, new Color(0, 0, 255), 0.8f);
 
         RenderUtil.drawTracer(RenderUtil.getBBCenter(bb), eyeHeight, new Color(0, 255, 0), 1f);
-    }
-
-
-
-    private void renderBoxOutline(AxisAlignedBB bb, float partialTicks, Color color) {
-        Entity player = Minecraft.getMinecraft().getRenderViewEntity();
-
-        double playerX = player.lastTickPosX + (player.posX - player.lastTickPosX) * partialTicks;
-        double playerY = player.lastTickPosY + (player.posY - player.lastTickPosY) * partialTicks;
-        double playerZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * partialTicks;
-
-        bb = bb.offset(-playerX, -playerY, -playerZ);
-
-        RenderUtil.drawOutlinedBoundingBox(bb, color, 1f);
     }
 
     public long encodeIndex(int x, int z) {

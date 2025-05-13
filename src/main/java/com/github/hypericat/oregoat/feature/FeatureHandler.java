@@ -1,12 +1,10 @@
 package com.github.hypericat.oregoat.feature;
 
-import com.github.hypericat.oregoat.feature.features.GdragLocator;
+import com.github.hypericat.oregoat.feature.features.StructureLocator;
 import com.github.hypericat.oregoat.feature.features.Routes;
 import com.github.hypericat.oregoat.feature.features.Template;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class FeatureHandler {
     private FeatureHandler() {
@@ -20,7 +18,7 @@ public class FeatureHandler {
 
         register(new Template());
         register(new Routes());
-        register(new GdragLocator());
+        register(new StructureLocator());
     }
 
     private static void register(Feature feature) {

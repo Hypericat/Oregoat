@@ -6,7 +6,9 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vector3d;
 import org.lwjgl.opengl.GL11;
@@ -103,6 +105,41 @@ public class RenderUtil {
         GlStateManager.enableDepth();
         GlStateManager.enableCull();
         GL11.glLineWidth(1);
+    }
+
+    public static void renderBlockOutline(BlockPos pos, float partialTicks, Color color) {
+        renderBlockOutline(new AxisAlignedBB(pos, pos.add(1, 1, 1)), partialTicks, color);
+    }
+
+
+    public static void renderBlockOutline(AxisAlignedBB bb, float partialTicks, Color color) {
+        Entity player = Minecraft.getMinecraft().getRenderViewEntity();
+
+        double playerX = player.lastTickPosX + (player.posX - player.lastTickPosX) * partialTicks;
+        double playerY = player.lastTickPosY + (player.posY - player.lastTickPosY) * partialTicks;
+        double playerZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * partialTicks;
+
+        bb = bb.offset(-playerX, -playerY, -playerZ);
+
+        RenderUtil.drawOutlinedBoundingBox(bb, color, 1f);
+    }
+
+    public static void renderBlockOutlineTracer(BlockPos pos, float partialTicks, Color color) {
+        renderBlockOutlineTracer(new AxisAlignedBB(pos, pos.add(1, 1, 1)), partialTicks, color);
+    }
+
+    public static void renderBlockOutlineTracer(AxisAlignedBB bb, float partialTicks, Color color) {
+        Entity player = Minecraft.getMinecraft().getRenderViewEntity();
+        float eyeHeight = Minecraft.getMinecraft().thePlayer.getEyeHeight();
+
+        double playerX = player.lastTickPosX + (player.posX - player.lastTickPosX) * partialTicks;
+        double playerY = player.lastTickPosY + (player.posY - player.lastTickPosY) * partialTicks;
+        double playerZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * partialTicks;
+
+        bb = bb.offset(-playerX, -playerY, -playerZ);
+
+        RenderUtil.drawOutlinedBoundingBox(bb, color, 1f);
+        RenderUtil.drawTracer(RenderUtil.getBBCenter(bb), eyeHeight, new Color(0, 255, 0), 1f);
     }
 
     public static void renderCenteredText(int x, int y, int color, String... text) {
