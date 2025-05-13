@@ -1,5 +1,6 @@
 package com.github.hypericat.oregoat.feature;
 
+import com.github.hypericat.oregoat.feature.features.GdragLocator;
 import com.github.hypericat.oregoat.feature.features.Routes;
 import com.github.hypericat.oregoat.feature.features.Template;
 
@@ -19,6 +20,7 @@ public class FeatureHandler {
 
         register(new Template());
         register(new Routes());
+        register(new GdragLocator());
     }
 
     private static void register(Feature feature) {

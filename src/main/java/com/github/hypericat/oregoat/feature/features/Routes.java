@@ -47,6 +47,7 @@ public class Routes extends Feature implements RenderLastEvent, WorldLoadEvent, 
     protected void onDisable() {
         EventHandler.unregister(RenderLastEvent.class, this);
         EventHandler.unregister(WorldLoadEvent.class, this);
+        EventHandler.unregister(ClientTickEvent.class, this);
         EventHandler.unregister(RenderChatEvent.class, this);
     }
 
