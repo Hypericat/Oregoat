@@ -13,7 +13,7 @@ public enum RoomType {
     CHAMPION("CHAMPION");
 
 
-    private String id;
+    private final String id;
 
     RoomType(String id) {
         this.id = id;
