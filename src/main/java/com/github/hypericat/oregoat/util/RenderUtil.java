@@ -139,7 +139,7 @@ public class RenderUtil {
         bb = bb.offset(-playerX, -playerY, -playerZ);
 
         RenderUtil.drawOutlinedBoundingBox(bb, color, 1f);
-        RenderUtil.drawTracer(RenderUtil.getBBCenter(bb), eyeHeight, new Color(0, 255, 0), 1f);
+        RenderUtil.drawTracer(RenderUtil.getBBCenter(bb), eyeHeight, color, 1f);
     }
 
     public static void renderCenteredText(int x, int y, int color, String... text) {

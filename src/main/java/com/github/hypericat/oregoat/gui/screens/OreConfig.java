@@ -20,6 +20,15 @@ public class OreConfig extends Config {
     }
 
 
+    @Slider(
+            name = "Render Line Thickness",
+            min = 1f, max = 10f, // Minimum and maximum values for the slider.
+            step = 1 // The amount of steps that the slider should have.
+    )
+    public static float outlineThickness = 1f; // The default value for the float Slider.
+
+
+
     @Switch(
             name = "Dungeon Routes",
             description = "Dungeon routes main toggle",
@@ -27,13 +36,6 @@ public class OreConfig extends Config {
             subcategory = "Routes"
     )
     public static boolean dungeonRoutes = false; // The default value for the boolean Switch.
-
-    @Slider(
-            name = "Render Line Thickness",
-            min = 1f, max = 10f, // Minimum and maximum values for the slider.
-            step = 1 // The amount of steps that the slider should have.
-    )
-    public static float outlineThickness = 1f; // The default value for the float Slider.
 
 
     @Switch(
