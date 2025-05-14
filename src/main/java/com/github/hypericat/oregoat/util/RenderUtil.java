@@ -11,7 +11,8 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.Vector3d;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.Color;
+
+import java.awt.*;
 
 public class RenderUtil {
 
@@ -109,11 +110,7 @@ public class RenderUtil {
     }
 
     public static AxisAlignedBB getPartialEntityBoundingBox(Entity entity, float partialTicks) {
-        AxisAlignedBB bb = entity.getEntityBoundingBox();
-        double x = (entity.posX - entity.lastTickPosX) * partialTicks;
-        double y = (entity.posY - entity.lastTickPosY) * partialTicks;
-        double z = (entity.posZ - entity.lastTickPosZ) * partialTicks;
-        return bb.offset(x, y, z);
+        return entity.getEntityBoundingBox();
     }
 
 

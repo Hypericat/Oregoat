@@ -17,8 +17,8 @@ import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
-import org.lwjgl.Sys;
-import org.lwjgl.util.Color;
+
+import java.awt.*;
 
 public class StructureLocator extends Feature implements LoadChunkEvent, WorldLoadEvent, RenderLastEvent {
 

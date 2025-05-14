@@ -2,22 +2,17 @@ package com.github.hypericat.oregoat.feature.features;
 
 import com.github.hypericat.oregoat.event.EventHandler;
 import com.github.hypericat.oregoat.event.events.ClientTickEvent;
-import com.github.hypericat.oregoat.event.events.ReceivePacketEvent;
 import com.github.hypericat.oregoat.event.events.RenderLastEvent;
-import com.github.hypericat.oregoat.event.events.SendPacketEvent;
 import com.github.hypericat.oregoat.feature.Feature;
+import com.github.hypericat.oregoat.gui.screens.OreConfig;
 import com.github.hypericat.oregoat.util.Location;
 import com.github.hypericat.oregoat.util.RenderUtil;
 import com.github.hypericat.oregoat.util.StateUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.boss.EntityWither;
-import net.minecraft.network.Packet;
+import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.util.AxisAlignedBB;
-import org.lwjgl.Sys;
-import org.lwjgl.util.Color;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +49,7 @@ public class WitherEsp extends Feature implements RenderLastEvent, ClientTickEve
 
     @Override
     public void onClientTick() {
-        if (StateUtil.getLocation() != Location.Dungeon) return;
+        if (StateUtil.getLocation() != Location.Dungeon || !OreConfig.witherEsp) return;
 
        this.witherEntities.clear();
 
@@ -66,22 +61,23 @@ public class WitherEsp extends Feature implements RenderLastEvent, ClientTickEve
     }
 
     public boolean isValidEntity(Entity entity) {
-        if (!EntityWither.class.isAssignableFrom(entity.getClass())) return false;
+        if (!EntityArmorStand.class.isAssignableFrom(entity.getClass())) return false;
 
-        String name = entity.getCustomNameTag().trim();
-        switch (name) {
-            case "§c§lMaxor": return true;
-            case "§c§lGoldor": return true;
-            case "§c§lStorm": return true;
-            case "§c§lNecron": return true;
-            default: return false;
-        }
+        String name = entity.getCustomNameTag();
+        return name.startsWith("§e﴾ §c§lMaxor") || name.startsWith("§e﴾ §c§lNecron") || name.startsWith("§e﴾ §c§lGoldor") || name.startsWith("§e﴾ §c§lStorm");
     }
 
     @Override
     public void onRenderLast(RenderGlobal ctx, float partialTicks) {
-        if (StateUtil.getLocation() != Location.Dungeon) return;
+        if (StateUtil.getLocation() != Location.Dungeon || !OreConfig.witherEsp) return;
 
-        this.witherEntities.forEach(wither -> RenderUtil.renderBBOutline(RenderUtil.getPartialEntityBoundingBox(wither, partialTicks), partialTicks, new Color(0, 0, 255)));
+        this.witherEntities.forEach(entity -> {
+            AxisAlignedBB boundingBox = RenderUtil.getPartialEntityBoundingBox(entity, partialTicks).expand(0.45d, 1.25d, 0.45d).offset(0d, -2.5d, 0d);
+
+            if (OreConfig.witherEspTracer)
+                RenderUtil.renderBBOutlineTracer(boundingBox, partialTicks, OreConfig.witherESPColor.toJavaColor());
+            else
+                RenderUtil.renderBBOutline(boundingBox, partialTicks, OreConfig.witherESPColor.toJavaColor());
+        });
     }
 }
