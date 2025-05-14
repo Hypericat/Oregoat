@@ -16,8 +16,11 @@ public class FeatureHandler {
     public static void initFeatures() {
         if (!features.isEmpty()) throw new IllegalStateException("Initialized existing features!");
 
+        // Beta, remove for release
         register(new Template());
         register(new Routes());
+
+        // Stable
         register(new StructureLocator());
     }
 

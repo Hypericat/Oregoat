@@ -80,6 +80,7 @@ public class StructureLocator extends Feature implements LoadChunkEvent, WorldLo
 
         if (OreConfig.gdragLairFinder && block == Blocks.stained_hardened_clay && gDragPos == null) {
             if (chunk.getBlockState(new BlockPos(x, y, z)).getValue(BlockColored.COLOR).getMetadata() != EnumDyeColor.ORANGE.getMetadata()) return false;
+            if (chunk.getBlockState(new BlockPos(x, y + 1, z)).getValue(BlockColored.COLOR).getMetadata() != EnumDyeColor.RED.getMetadata()) return false;
 
             gDragPos = new BlockPos((chunk.xPosition << 4) + x, y, (chunk.zPosition << 4) + z);
             Util.chatOfficial("Found &&l&&6Golden Dragon &&r&&9at " + Util.blockPosToString(gDragPos));
