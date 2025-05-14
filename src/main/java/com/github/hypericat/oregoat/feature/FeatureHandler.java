@@ -3,6 +3,7 @@ package com.github.hypericat.oregoat.feature;
 import com.github.hypericat.oregoat.feature.features.StructureLocator;
 import com.github.hypericat.oregoat.feature.features.Routes;
 import com.github.hypericat.oregoat.feature.features.Template;
+import com.github.hypericat.oregoat.feature.features.WitherEsp;
 
 import java.util.HashMap;
 
@@ -17,11 +18,12 @@ public class FeatureHandler {
         if (!features.isEmpty()) throw new IllegalStateException("Initialized existing features!");
 
         // Beta, remove for release
-        register(new Template());
-        register(new Routes());
+        //register(new Template());
+        //register(new Routes());
 
         // Stable
         register(new StructureLocator());
+        register(new WitherEsp());
     }
 
     private static void register(Feature feature) {

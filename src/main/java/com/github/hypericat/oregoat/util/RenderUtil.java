@@ -9,12 +9,9 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vector3d;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Color;
-
-import java.util.List;
 
 public class RenderUtil {
 
@@ -107,12 +104,21 @@ public class RenderUtil {
         GL11.glLineWidth(1);
     }
 
-    public static void renderBlockOutline(BlockPos pos, float partialTicks, Color color) {
-        renderBlockOutline(new AxisAlignedBB(pos, pos.add(1, 1, 1)), partialTicks, color);
+    public static void renderBlocKOutline(BlockPos pos, float partialTicks, Color color) {
+        renderBBOutline(new AxisAlignedBB(pos, pos.add(1, 1, 1)), partialTicks, color);
+    }
+
+    public static AxisAlignedBB getPartialEntityBoundingBox(Entity entity, float partialTicks) {
+        AxisAlignedBB bb = entity.getEntityBoundingBox();
+        double x = (entity.posX - entity.lastTickPosX) * partialTicks;
+        double y = (entity.posY - entity.lastTickPosY) * partialTicks;
+        double z = (entity.posZ - entity.lastTickPosZ) * partialTicks;
+        return bb.offset(x, y, z);
     }
 
 
-    public static void renderBlockOutline(AxisAlignedBB bb, float partialTicks, Color color) {
+
+    public static void renderBBOutline(AxisAlignedBB bb, float partialTicks, Color color) {
         Entity player = Minecraft.getMinecraft().getRenderViewEntity();
 
         double playerX = player.lastTickPosX + (player.posX - player.lastTickPosX) * partialTicks;
@@ -125,10 +131,10 @@ public class RenderUtil {
     }
 
     public static void renderBlockOutlineTracer(BlockPos pos, float partialTicks, Color color) {
-        renderBlockOutlineTracer(new AxisAlignedBB(pos, pos.add(1, 1, 1)), partialTicks, color);
+        renderBBOutlineTracer(new AxisAlignedBB(pos, pos.add(1, 1, 1)), partialTicks, color);
     }
 
-    public static void renderBlockOutlineTracer(AxisAlignedBB bb, float partialTicks, Color color) {
+    public static void renderBBOutlineTracer(AxisAlignedBB bb, float partialTicks, Color color) {
         Entity player = Minecraft.getMinecraft().getRenderViewEntity();
         float eyeHeight = Minecraft.getMinecraft().thePlayer.getEyeHeight();
 

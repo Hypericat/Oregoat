@@ -11,7 +11,6 @@ import com.github.hypericat.oregoat.util.StateUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.RenderGlobal;
-import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.*;
@@ -74,7 +73,7 @@ public class Routes extends Feature implements RenderLastEvent, WorldLoadEvent, 
     @Override
     public void onRenderLast(RenderGlobal ctx, float partialTicks) {
         if (currentRoom != null) {
-            RenderUtil.renderBlockOutline(currentRoom.getBox().to3dCentered(70, 20), partialTicks, new Color(0, 0, 255));
+            RenderUtil.renderBBOutline(currentRoom.getBox().to3dCentered(70, 20), partialTicks, new Color(0, 0, 255));
             if (currentRoom.hasRoomData() && paths.containsKey(currentRoom.getRoomData().getName())) {
                 List<BlockPos> positions = paths.get(currentRoom.getRoomData().getName());
 
