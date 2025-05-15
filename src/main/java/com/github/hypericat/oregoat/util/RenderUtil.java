@@ -110,7 +110,11 @@ public class RenderUtil {
     }
 
     public static AxisAlignedBB getPartialEntityBoundingBox(Entity entity, float partialTicks) {
-        return entity.getEntityBoundingBox();
+        double lerpX = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * partialTicks;
+        double lerpY = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * partialTicks;
+        double lerpZ = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * partialTicks;
+
+        return entity.getEntityBoundingBox().offset(lerpX - entity.posX, lerpY - entity.posY, lerpZ - entity.posZ);
     }
 
 
