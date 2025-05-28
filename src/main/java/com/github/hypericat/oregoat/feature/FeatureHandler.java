@@ -1,9 +1,6 @@
 package com.github.hypericat.oregoat.feature;
 
-import com.github.hypericat.oregoat.feature.features.StructureLocator;
-import com.github.hypericat.oregoat.feature.features.Routes;
-import com.github.hypericat.oregoat.feature.features.Template;
-import com.github.hypericat.oregoat.feature.features.WitherEsp;
+import com.github.hypericat.oregoat.feature.features.*;
 
 import java.util.HashMap;
 
@@ -24,6 +21,7 @@ public class FeatureHandler {
         // Stable
         register(new StructureLocator());
         register(new WitherEsp());
+        register(new StarredMobEsp());
     }
 
     private static void register(Feature feature) {

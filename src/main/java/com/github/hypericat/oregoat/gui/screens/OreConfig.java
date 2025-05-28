@@ -20,6 +20,7 @@ public class OreConfig extends Config {
         addDependency("Show Grotto Waypoint", "Grotto Finder Enabled", () -> grottoFinder);
         addDependency("Wither ESP Tracer", "Wither ESP Enabled", () -> witherEsp);
         addDependency("Wither ESP Color", "Wither ESP Enabled", () -> witherEsp);
+        addDependency("Starred Mob ESP Color", "Starred Mob ESP Enabled", () -> starredMobEsp);
 
     }
 
@@ -53,6 +54,22 @@ public class OreConfig extends Config {
             subcategory = "Render"
     )
     public static OneColor witherESPColor = new OneColor(0, 0, 255);
+
+    @Switch(
+            name = "Starred Mob ESP",
+            description = "ESP starred mobs",
+            category = "Dungeons",
+            subcategory = "Render"
+    )
+    public static boolean starredMobEsp = true;
+
+
+    @Color(
+            name = "Starred Mob ESP Color",
+            category = "Dungeons",
+            subcategory = "Render"
+    )
+    public static OneColor starredMobEspColor = new OneColor(0, 255, 0);
 
     @Switch(
             name = "Dungeon Routes",
