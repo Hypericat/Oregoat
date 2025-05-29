@@ -40,7 +40,7 @@ public class Util {
         if (Minecraft.getMinecraft().theWorld == null || armorStand == null) return null;
         return Minecraft.getMinecraft().theWorld.getEntitiesWithinAABBExcludingEntity(armorStand, armorStand.getEntityBoundingBox().offset(0.0, -1.0, 0.0))
                 .stream()
-                .filter(e -> e.getClass() != EntityArmorStand.class && e != Minecraft.getMinecraft().thePlayer && !(e.getClass() == EntityWither.class && e.isInvisible()) && e.getClass() != EntityOtherPlayerMP.class)
+                .filter(e -> e.getClass() != EntityArmorStand.class && e != Minecraft.getMinecraft().thePlayer && !(e.getClass() == EntityWither.class && e.isInvisible())) // Maybe check name to filter for other players, always show name?
                 .min(Comparator.comparingDouble(e -> e.getDistanceToEntity(armorStand))).orElse(null);
     }
 }

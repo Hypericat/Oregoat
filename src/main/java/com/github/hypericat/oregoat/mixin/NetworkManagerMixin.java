@@ -20,9 +20,9 @@ public class NetworkManagerMixin {
         EventHandler.updateListeners(ReceivePacketEvent.class, event -> ((ReceivePacketEvent) event).onReceivePacket(packet, ci));
     }
 
-    @Inject(method = "channelRead0", at = @At("RETURN"), cancellable = true)
+    @Inject(method = "channelRead0", at = @At("RETURN"))
     private void onChannelReadPost(ChannelHandlerContext context, Packet<?> packet, CallbackInfo ci) {
-        EventHandler.updateListeners(PostReceivePacketEvent.class, event -> ((PostReceivePacketEvent) event).onPostReceivePacket(packet, ci));
+        EventHandler.updateListeners(PostReceivePacketEvent.class, event -> ((PostReceivePacketEvent) event).onPostReceivePacket(packet));
     }
 
     @Inject(method = "sendPacket(Lnet/minecraft/network/Packet;)V", at = @At("HEAD"), cancellable = true)
