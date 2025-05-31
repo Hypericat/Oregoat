@@ -30,7 +30,7 @@ public class DungeonRoomHandler {
             jsonArray.forEach(json -> {
                 RoomData data = gson.fromJson(json, RoomData.class);
                 data.getCores().forEach(core -> rooms.put(core, data));
-                System.out.println(data);
+                //System.out.println(data);
             });
         } catch (IOException e) {
             throw new RuntimeException(e);

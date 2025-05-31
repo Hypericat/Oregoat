@@ -9,14 +9,18 @@ import com.github.hypericat.oregoat.util.Location;
 import com.github.hypericat.oregoat.util.RenderUtil;
 import com.github.hypericat.oregoat.util.StateUtil;
 import com.github.hypericat.oregoat.util.Util;
+import com.google.common.base.Predicate;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityArmorStand;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S13PacketDestroyEntities;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
+import org.lwjgl.Sys;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -25,6 +29,8 @@ public class StarredMobEsp extends Feature implements RenderLastEvent, ClientTic
 
     private final HashMap<Integer, StarredMob> starredMobs;
     private final HashSet<Integer> starredStands;
+
+    private static final int saHash = "Shadow Assassin".hashCode();
 
     public StarredMobEsp() {
         this.starredMobs = new HashMap<>();
@@ -67,12 +73,13 @@ public class StarredMobEsp extends Feature implements RenderLastEvent, ClientTic
     public void onRenderLast(RenderGlobal ctx, float partialTicks) {
         if (StateUtil.getLocation() != Location.Dungeon || !OreConfig.starredMobEsp) return;
 
-        Entity entity = Minecraft.getMinecraft().objectMouseOver.entityHit;
-        if (entity != null) {
-            AxisAlignedBB bb = RenderUtil.getPartialEntityBoundingBox(entity, partialTicks);
-            RenderUtil.renderBBOutline(bb, partialTicks, OreConfig.witherESPColor.toJavaColor());
-            Util.chat(entity.getName());
-        }
+        //Entity entity = Minecraft.getMinecraft().objectMouseOver.entityHit;
+        //if (entity != null) {
+        //    AxisAlignedBB bb = RenderUtil.getPartialEntityBoundingBox(entity, partialTicks);
+        //    RenderUtil.renderBBOutline(bb, partialTicks, OreConfig.witherESPColor.toJavaColor());
+        //    Util.chat(entity.getName());
+        //    Util.chat(entity.getClass().toString());
+        //}
 
         // Frustum culling ////////////////////
         List<Integer> entityIDS = new ArrayList<>(this.starredMobs.keySet());
@@ -92,7 +99,8 @@ public class StarredMobEsp extends Feature implements RenderLastEvent, ClientTic
         if (starredMobs.containsKey(id)) {
             int armor = starredMobs.get(id).getArmorStandID();
             starredMobs.remove(id);
-            starredStands.remove(armor);
+            if (armor != -1)
+                starredStands.remove(armor);
         }
     }
 
@@ -113,19 +121,28 @@ public class StarredMobEsp extends Feature implements RenderLastEvent, ClientTic
             if (armorStand == null || starredStands.contains(armorStand.getEntityId())) continue;
             if (!isValidEntity(armorStand)) continue;
 
-            addStarredEntity(armorStand);
+            addStarredEntity(armorStand.getEntityId(), Util.getMobEntity(armorStand));
         }
+
+        // Check for shadow assassins
+        for (Entity player : Minecraft.getMinecraft().theWorld.getPlayers(Entity.class, entity -> entity.getName().hashCode() == saHash)) {
+            if (starredMobs.containsKey(player.getEntityId())) continue;
+            addStarredEntity(-1, player);
+        }
+
+
     }
 
-    public void addStarredEntity(EntityArmorStand armorStand) {
-        Entity entity = Util.getMobEntity(armorStand);
-        if (entity == null) {
-            System.err.println("Unable to find mob for entity : " + armorStand.getName());
+    public void addStarredEntity(int armorStand, Entity mobEntity) {
+        if (mobEntity == null) {
+            //System.err.println("Unable to find mob for entity : " + armorStand.getName());
             return;
         }
 
-        starredStands.add(armorStand.getEntityId());
-        starredMobs.put(entity.getEntityId(), new StarredMob(armorStand.getEntityId(), entity.getEntityId()));
+        if (armorStand != -1) {
+            starredStands.add(armorStand);
+        }
+        starredMobs.put(mobEntity.getEntityId(), new StarredMob(armorStand, mobEntity.getEntityId()));
     }
 
     @Override
