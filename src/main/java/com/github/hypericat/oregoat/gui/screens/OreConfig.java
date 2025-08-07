@@ -72,6 +72,15 @@ public class OreConfig extends Config {
     public static OneColor starredMobEspColor = new OneColor(0, 255, 0);
 
     @Switch(
+            name = "Warn Diamantes",
+            description = "Warn when diamantes spawn",
+            category = "Dungeons",
+            subcategory = "Util"
+    )
+    public static boolean diamante = true; // The default value for the boolean Switch.
+
+
+    @Switch(
             name = "Dungeon Routes",
             description = "Dungeon routes main toggle",
             category = "Dungeons",

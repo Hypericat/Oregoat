@@ -65,7 +65,7 @@ public class StarredMobEsp extends Feature implements RenderLastEvent, ClientTic
 
     public boolean isValidEntity(Entity entity) {
         if (entity.getClass() != EntityArmorStand.class) return false;
-        if (!entity.hasCustomName() || !entity.getCustomNameTag().startsWith("§6✯ ") || !entity.getCustomNameTag().endsWith("§c❤") || !entity.getAlwaysRenderNameTag()) return false;
+        if (!entity.hasCustomName() || !entity.getCustomNameTag().contains("§6✯ ") || !entity.getCustomNameTag().endsWith("§c❤") || !entity.getAlwaysRenderNameTag()) return false;
         return true;
     }
 
@@ -129,6 +129,13 @@ public class StarredMobEsp extends Feature implements RenderLastEvent, ClientTic
             if (starredMobs.containsKey(player.getEntityId())) continue;
             addStarredEntity(-1, player);
         }
+
+        // DIAMANTE WARNING
+        // DIAMANTE WARNING
+        // DIAMANTE WARNING
+        // DIAMANTE WARNING
+        // DIAMANTE WARNING
+        // DIAMANTE WARNING
 
 
     }

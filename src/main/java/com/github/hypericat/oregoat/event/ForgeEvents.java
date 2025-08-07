@@ -3,6 +3,7 @@ package com.github.hypericat.oregoat.event;
 import com.github.hypericat.oregoat.event.events.*;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -42,5 +43,10 @@ public class ForgeEvents {
     @SubscribeEvent
     public void onConnect(FMLNetworkEvent.ClientConnectedToServerEvent event) {
         EventHandler.updateListeners(ConnectEvent.class, e -> ((ConnectEvent) e).onConnect(event.handler, event.manager, event.isLocal, event.connectionType));
+    }
+
+    @SubscribeEvent
+    public void onClientSpawnEntity(EntityJoinWorldEvent event) {
+        EventHandler.updateListeners(EntitySpawnEvent.class, e -> ((EntitySpawnEvent) e).onEntitySpawn(event.entity));
     }
 }

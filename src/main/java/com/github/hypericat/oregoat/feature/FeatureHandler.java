@@ -22,6 +22,7 @@ public class FeatureHandler {
         register(new StructureLocator());
         register(new WitherEsp());
         register(new StarredMobEsp());
+        register(new DiamanteWarning());
     }
 
     private static void register(Feature feature) {

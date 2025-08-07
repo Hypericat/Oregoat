@@ -59,6 +59,10 @@ loom {
     }
 }
 
+tasks.compileJava {
+    dependsOn(tasks.processResources)
+}
+
 sourceSets.main {
     output.setResourcesDir(sourceSets.main.flatMap { it.java.classesDirectory })
 }
