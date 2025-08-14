@@ -41,6 +41,8 @@ loom {
                 // This argument causes a crash on macOS
                 vmArgs.remove("-XstartOnFirstThread")
             }
+
+            programArgs("--mixin", "mixins.oregoat.json");
         }
         remove(getByName("server"))
     }

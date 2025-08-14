@@ -79,6 +79,14 @@ public class OreConfig extends Config {
     )
     public static boolean diamante = true; // The default value for the boolean Switch.
 
+    @Switch(
+            name = "Auto Term Cancel",
+            description = "Blocks manual clicks in terminals so you don't get banned from autoTerming",
+            category = "Dungeons",
+            subcategory = "Util"
+    )
+    public static boolean autotermCancel = true; // The default value for the boolean Switch.
+
 
     @Switch(
             name = "Dungeon Routes",

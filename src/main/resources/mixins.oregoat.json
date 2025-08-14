@@ -1,8 +1,16 @@
 {
-  "package": "${basePackage}.mixin",
-  "plugin": "${basePackage}.init.AutoDiscoveryMixinPlugin",
+  "package": "com.github.hypericat.oregoat.mixin",
   "refmap": "mixins.${modid}.refmap.json",
   "minVersion": "0.7",
   "compatibilityLevel": "JAVA_8",
-  "__comment": "You do not need to manually register mixins in this template. Check the auto discovery mixin plugin for more info."
+  "mixins": [
+    "ChunkMixin",
+    "EntityRendererMixin",
+    "GuiChestAccessor",
+    "GuiContainerMixin",
+    "GuiNewChatMixin",
+    "MixinModList",
+    "NetworkManagerMixin",
+    "RenderGlobalMixin"
+  ]
 }

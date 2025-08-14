@@ -129,15 +129,6 @@ public class StarredMobEsp extends Feature implements RenderLastEvent, ClientTic
             if (starredMobs.containsKey(player.getEntityId())) continue;
             addStarredEntity(-1, player);
         }
-
-        // DIAMANTE WARNING
-        // DIAMANTE WARNING
-        // DIAMANTE WARNING
-        // DIAMANTE WARNING
-        // DIAMANTE WARNING
-        // DIAMANTE WARNING
-
-
     }
 
     public void addStarredEntity(int armorStand, Entity mobEntity) {
